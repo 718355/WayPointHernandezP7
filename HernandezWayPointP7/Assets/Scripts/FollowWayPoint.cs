@@ -8,25 +8,46 @@ public class FollowWayPoint : MonoBehaviour
     int currentWP = 0;
     public float speed = 10.0f;
     public float rotSpeed = 10.0f;
+    public float lookAhead = 10.0f;
+
+    GameObject tracker;
     // Start is called before the first frame update
     void Start()
     {
-        
+        tracker = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        DestroyImmediate(tracker.GetComponent<Collider>());
+        tracker.GetComponent<MeshRenderer>().enabled = false;
+        tracker.transform.position = this.transform.position;
+        tracker.transform.rotation = this.transform.rotation;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void ProgressTracker()
     {
-        if (Vector3.Distance(this.transform.position, waypoints[currentWP].transform.position) < 3)
+        if (Vector3.Distance(tracker.transform.position, this.transform.position) > lookAhead) return;
+
+
+        if (Vector3.Distance(tracker.transform.position, waypoints[currentWP].transform.position) < 3)
             currentWP++;
 
         if (currentWP >= waypoints.Length)
             currentWP = 0;
 
-        Quaternion lookatWP = Quaternion.LookRotation(waypoints[currentWP]. transform.position - transform.position);
+        tracker.transform.LookAt(waypoints[currentWP].transform);
+        tracker.transform.Translate(0, 0, (speed * 2) * Time.deltaTime);
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        ProgressTracker();
+
+        Quaternion lookatWP = Quaternion.LookRotation(tracker.transform.position - transform.position);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookatWP, rotSpeed * Time.deltaTime);
         
         transform.Translate(0, 0, speed * Time.deltaTime);
+
         }
     }
 

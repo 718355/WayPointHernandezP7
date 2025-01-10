@@ -19,7 +19,7 @@ public class WPManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (waypoints.length > 0)
+        if (waypoints.Length > 0)
         {
             foreach (GameObject wp in waypoints)
             {

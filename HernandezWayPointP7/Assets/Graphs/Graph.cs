@@ -33,16 +33,16 @@ public class Graph
     {
         foreach (Node n in nodes)
         {
-            if (n.getID() == id)
+            if (n.getId() == id)
                 return n;
         }
         return null;
     }
 
-    public bool AStar(GameObject startId, GameObject endID)
+    public bool AStar(GameObject startId, GameObject endId)
     {
         Node start = FindNode(startId);
-        nodes end = FindNode(endId);
+        Node end = FindNode(endId);
 
         if (start == null || end == null)
         {
@@ -50,9 +50,9 @@ public class Graph
         }
 
         List<Node> open = new List<Node>();
-        List<nodes> closed = new List<Node>();
-        float tentative_g_score = object;
-        bool tentative_ist_better;
+        List<Node> closed = new List<Node>();
+        float tentative_g_score = 0;
+        bool tentative_is_better;
 
         start.g = 0;
         start.h = distance(start, end);
@@ -65,7 +65,7 @@ public class Graph
             Node thisNode = open[i];
             if (thisNode.getId() == endId)
             {
-                RecontructionPath(start.end);
+                ReconstructPath(start,end);
                 return true;
             }
 
@@ -76,36 +76,36 @@ public class Graph
             {
                 neighbour = e.endNode;
 
-                if (closed.IndexOf(neighbour) > -1) ;
-                continue;
+                if (closed.IndexOf(neighbour) > -1)
+                    continue;
 
-                tentative_g_score_g_score = thisNode.g + distance(thisNode, neighbour);
+                tentative_g_score = thisNode.g + distance(thisNode, neighbour);
                 if (open.IndexOf(neighbour) == -1)
                 {
                     open.Add(neighbour);
-                    tentative_ist_better = true;
+                    tentative_is_better = true;
                 }
                 else if (tentative_g_score < neighbour.g)
                 {
-                    tentative_ist_better = true;
+                    tentative_is_better = true;
                 }
                 else
                 {
-                    tentative_ist_better = false;
+                    tentative_is_better = false;
                 }
-                if (tentative_ist_better)
+                if (tentative_is_better)
                 {
                     neighbour.cameFrom = thisNode;
                     neighbour.g = tentative_g_score;
                     neighbour.h = distance(thisNode, end);
-                    neighbout.f = neighbout.g + neighbour.h;
+                    neighbour.f = neighbour.g + neighbour.h;
                 }
 
             }
         }
         return false;
     }
-    public void ReconstructionPath(Node startId, Node endId)
+    public void ReconstructPath(Node startId, Node endId)
     {
         pathList.Clear();
         pathList.Add(endId);
@@ -121,7 +121,7 @@ public class Graph
 
     float distance(Node a, Node b)
     {
-        return (Vector3.SqrMagnitude(a.getID().transform.position - b.getID().transform.position);
+        return (Vector3.SqrMagnitude(a.getId().transform.position - b.getId().transform.position));
     }
     int lowestF(List<Node> l)
     {

@@ -10,7 +10,7 @@ public class Node
 
 
     public float f, g, h;
-    public Node camefrom;
+    public Node cameFrom;
 
     public Node(GameObject i)
     {
@@ -18,7 +18,7 @@ public class Node
         path = null;
 
     }
-    public GameObject getID()
+    public GameObject getId()
     {
         return id;
     }

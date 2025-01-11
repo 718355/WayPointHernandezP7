@@ -14,10 +14,13 @@ public class FollowWP : MonoBehaviour
     GameObject currentNode;
     int currentWP = 0;
     Graph g;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        wps = wpManager.GetComponent<WPManager>().waypoints;
+        g = wpManager.GetComponent<WPManager>().graph;
+        currentNode = wps[];
     }
 
     // Update is called once per frame
